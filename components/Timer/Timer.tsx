@@ -6,7 +6,7 @@ import { formatTime } from '@/utils/timeUtils';
 type TimerMode = 'work' | 'break' | 'longBreak';
 
 export default function Timer() {
-  const [timeLeft, setTimeLeft] = useState(25 * 60); // 25분을 초로 변환
+  const [timeLeft, setTimeLeft] = useState(25 * 60);
   const [isRunning, setIsRunning] = useState(false);
   const [mode, setMode] = useState<TimerMode>('work');
   const [completedSessions, setCompletedSessions] = useState(0);
@@ -60,37 +60,47 @@ export default function Timer() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-8 p-8">
-      <div className="text-6xl font-mono font-bold">
-        {formatTime(timeLeft)}
-      </div>
-      
-      <div className="text-2xl font-semibold">
+    <div className="flex flex-col items-center justify-center gap-10">
+      <div className="text-2xl font-medium text-gray-600">
         {mode === 'work' ? '작업 시간' : mode === 'break' ? '휴식 시간' : '긴 휴식 시간'}
       </div>
-      
-      <div className="text-sm">
-        완료한 세션: {completedSessions}
+
+      <div className="relative">
+        <div className="w-72 h-72 rounded-full border-8 border-gray-100 flex items-center justify-center">
+          <div className="text-7xl font-mono font-bold text-gray-800 tracking-wider">
+            {formatTime(timeLeft)}
+          </div>
+        </div>
+        
+        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-white px-4 py-1 rounded-full shadow-sm">
+          <span className="text-sm font-medium text-gray-600">
+            {completedSessions}/4 세션
+          </span>
+        </div>
       </div>
-      
+
       <div className="flex gap-4">
         <button
           onClick={toggleTimer}
-          className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+          className={`px-8 py-3 rounded-xl font-medium transition-all duration-200 ${
+            isRunning
+              ? 'bg-orange-500 hover:bg-orange-600 text-white'
+              : 'bg-indigo-500 hover:bg-indigo-600 text-white'
+          }`}
         >
           {isRunning ? '일시정지' : '시작'}
         </button>
         
         <button
           onClick={skipTimer}
-          className="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+          className="px-8 py-3 rounded-xl font-medium bg-gray-100 hover:bg-gray-200 text-gray-700 transition-all duration-200"
         >
           넘기기
         </button>
         
         <button
           onClick={resetTimer}
-          className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+          className="px-8 py-3 rounded-xl font-medium bg-red-50 hover:bg-red-100 text-red-600 transition-all duration-200"
         >
           리셋
         </button>
