@@ -60,50 +60,55 @@ export default function Timer() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-10">
-      <div className="text-2xl font-medium text-gray-600">
-        {mode === 'work' ? '작업 시간' : mode === 'break' ? '휴식 시간' : '긴 휴식 시간'}
-      </div>
-
+    <div className="flex flex-col items-center justify-center gap-16">
       <div className="relative">
-        <div className="w-72 h-72 rounded-full border-8 border-gray-100 flex items-center justify-center">
-          <div className="text-7xl font-mono font-bold text-gray-800 tracking-wider">
-            {formatTime(timeLeft)}
-          </div>
+        <div className="absolute inset-0 w-full h-full">
+          {[...Array(12)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-2 h-2 rounded-full bg-white/50"
+              style={{
+                left: '50%',
+                top: '50%',
+                transform: `rotate(${i * 30}deg) translateY(-140px) translateX(-50%)`,
+              }}
+            />
+          ))}
         </div>
         
-        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-white px-4 py-1 rounded-full shadow-sm">
-          <span className="text-sm font-medium text-gray-600">
-            {completedSessions}/4 세션
-          </span>
+        <div className="text-8xl font-mono text-white font-light tracking-wider">
+          {formatTime(timeLeft)}
         </div>
       </div>
 
-      <div className="flex gap-4">
+      <div className="flex flex-col items-center gap-8">
         <button
           onClick={toggleTimer}
-          className={`px-8 py-3 rounded-xl font-medium transition-all duration-200 ${
-            isRunning
-              ? 'bg-orange-500 hover:bg-orange-600 text-white'
-              : 'bg-indigo-500 hover:bg-indigo-600 text-white'
-          }`}
+          className="px-12 py-3 rounded-full bg-white/20 hover:bg-white/30 text-white font-medium backdrop-blur-sm transition-all"
         >
-          {isRunning ? '일시정지' : '시작'}
+          {isRunning ? '일시정지' : '시작하기'}
         </button>
-        
-        <button
-          onClick={skipTimer}
-          className="px-8 py-3 rounded-xl font-medium bg-gray-100 hover:bg-gray-200 text-gray-700 transition-all duration-200"
-        >
-          넘기기
-        </button>
-        
-        <button
-          onClick={resetTimer}
-          className="px-8 py-3 rounded-xl font-medium bg-red-50 hover:bg-red-100 text-red-600 transition-all duration-200"
-        >
-          리셋
-        </button>
+
+        <div className="fixed bottom-8 left-0 right-0">
+          <div className="flex justify-center gap-16 text-white/80">
+            <button className="flex flex-col items-center gap-2">
+              <span className="material-icons text-3xl">self_improvement</span>
+              <span className="text-xs">명상모드</span>
+            </button>
+            <button className="flex flex-col items-center gap-2">
+              <span className="material-icons text-3xl">timer</span>
+              <span className="text-xs">타이머모드</span>
+            </button>
+            <button className="flex flex-col items-center gap-2">
+              <span className="material-icons text-3xl">calendar_today</span>
+              <span className="text-xs">진행기록</span>
+            </button>
+            <button className="flex flex-col items-center gap-2">
+              <span className="material-icons text-3xl">music_note</span>
+              <span className="text-xs">음악재생</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
